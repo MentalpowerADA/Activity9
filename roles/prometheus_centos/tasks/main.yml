@@ -78,6 +78,14 @@
     owner: root
     group: root
 
+- name: Prometheus service file copy
+  copy:
+    src: prometheus.service
+    dest: /etc/systemd/system
+    mode: 777
+    owner: root
+    group: root
+
 - name: Reload systemd service
   shell: systemctl daemon-reload
 
