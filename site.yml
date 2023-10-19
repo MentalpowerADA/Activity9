@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - name: Install Prometheus on Ubuntu
+      include_role:
+        name: prometheus_ubuntu
+      when: ansible_os_family == "Debian"
+
+    - name: Install Prometheus on CentOS
+      include_role:
+        name: prometheus_centos
+      when: ansible_os_family == "RedHat"
