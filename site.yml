@@ -1,11 +1,25 @@
 - hosts: all
-  tasks:
-    - name: Install Prometheus on Ubuntu
-      include_role:
-        name: prometheus_ubuntu
-      when: ansible_os_family == "Debian"
+  become: true
+  pre_tasks:
+  
+  - name: install updates (CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "Centos"
+    
+  - name: install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+    
+- hosts: prometheus_ubuntu
+  become: true
+  roles:
+    - prometheus_ubuntu
 
-    - name: Install Prometheus on CentOS
-      include_role:
-        name: prometheus_centos
-      when: ansible_os_family == "RedHat"
+- hosts: prometheus_centos
+  become: true
+  roles:
+    - prometheus_centos
